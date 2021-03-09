@@ -106,10 +106,12 @@ class Vista_reporte_compensacion(QWidget):
         self.gastos_consolidados = []
         self.gastos2 = session.query(Gasto.viajero, func.sum(Gasto.valor).label('GastoViajero') ).join(Actividad).filter(Gasto.actividad == act_id).group_by(Gasto.viajero).all()
 
+        k = 0
         for id in self.viajeros_act:
             for i in range(len(self.gastos2)):
                 if id == self.gastos2[i][0]:
-                    self.gastos_viajero_act[id-1][1] = self.gastos2[i][1]
+                    self.gastos_viajero_act[k][1] = self.gastos2[k][1]
+                    k += 1
 
         total =0
         n_viajeros = 0
@@ -154,12 +156,14 @@ class Vista_reporte_compensacion(QWidget):
         for viajero in self.viajeross:
             self.viajeros1.append(object_as_dict(viajero))
 
+        j = 0
         self.viajeros_en_act = []
         for id in self.viajeros_act:
             for viajero in self.viajeros1:
                 if id == viajero["id"]:
                     self.viajeros_en_act.append(viajero["nombre"])
-                    self.viajeros_en_act[id-1] = self.viajeros_en_act[id-1]+ ' ' +viajero['apellido']
+                    self.viajeros_en_act[j] = self.viajeros_en_act[j]+ ' ' +viajero['apellido']
+                    j +=1
 
         self.viajeros_en_actividad = []
         for viajero in self.viajeros1:
@@ -172,7 +176,8 @@ class Vista_reporte_compensacion(QWidget):
 
         self.matriz_header=[[""]]
         for viajero in self.viajeros_en_actividad:
-            self.matriz_header[0].append(viajero['Nombre'])
+            if viajero["Presente"] == True:
+                self.matriz_header[0].append(viajero['Nombre'])
         for i in range(len(self.matriz)):
             self.matriz[i].insert(0,self.matriz_header[0][i+1])
         self.matriz.insert(0, self.matriz_header[0])

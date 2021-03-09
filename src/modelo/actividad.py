@@ -16,10 +16,4 @@ class Actividad(Base):
 
     def __init__(self, nombre):
         self.nombre = nombre
-# #        self.activa = activa
-#
-#     def __repr__(self):
-#         return "<Actividad(nombre='{}')>" \
-#             .format(self.nombre)
-#
-#
+

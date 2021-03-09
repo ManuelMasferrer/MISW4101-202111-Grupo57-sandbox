@@ -13,7 +13,6 @@ class Gasto(Base):
     actividad = Column(Integer, ForeignKey('actividad.id'))
     viajero = Column(Integer, ForeignKey('viajero.id'))
 
-
     def __init__(self, concepto, valor, fecha):
         self.concepto = concepto
         self.valor = valor

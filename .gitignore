@@ -41,10 +41,12 @@ build/*
 dist/*
 sdist/*
 docs/api/*
-docs/_rst/*
+docs/_rst/*gu
 docs/_build/*
 cover/*
 MANIFEST
 
 # Per-project virtualenvs
 .venv*/
+.venv/
+

@@ -40,7 +40,7 @@ if __name__ == '__main__':
     session.commit()
 
     actividad_1.viajeros = [viajero_1, viajero_2, viajero_3, viajero_4]
-    actividad_2.viajeros = [viajero_1]
+    actividad_2.viajeros = [viajero_2]
 
     actividad_1.gastos = [gasto_1, gasto_2, gasto_3, gasto_4]
     actividad_2.gastos = [gasto_5]

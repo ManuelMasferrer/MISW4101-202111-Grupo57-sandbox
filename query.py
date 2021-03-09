@@ -28,18 +28,14 @@ viajeros1 = []
 for viajero in viajeross:
     viajeros1.append(object_as_dict(viajero))
 
-print(viajeros1)
-print(type(viajeros1[1]))
+# print(viajeros1)
+# print(type(viajeros1[1]))
 
 print("Los viajeros registrados son:")
 viajeros = []
 for i in range(len(viajeros1)):
     viajeros.append({"Nombre": viajeros1[i]["nombre"],"Apellido":viajeros1[i]["apellido"]})
 print(viajeros)
-
-
-
-
 
 
 
@@ -95,7 +91,7 @@ for item in viajeros_actividad:
     if actid == act_id:
         gastos_viajero_act.append([item.get("viajero"),0])
         viajeros_act.append(item.get("viajero"))
-print("Los viajeros registrados en la actividad "  + actividad + " son:")
+print("Los id de los viajeros registrados en la actividad "  + actividad + " son:")
 print(viajeros_act)
 print(gastos_viajero_act)
 # for viajero in viajeros:
@@ -108,12 +104,12 @@ print("Los gastos de cada viajero en la actividad " + actividad + " son:")
 #print(gastos2)
 
 
-
+k=0
 for id in viajeros_act:
     for i in range(len(gastos2)):
         if id == gastos2[i][0]:
-            gastos_viajero_act[id-1][1] = gastos2[i][1]
-
+            gastos_viajero_act[k][1] = gastos2[k][1]
+            k +=1
 print(gastos_viajero_act)
 
 total =0
@@ -180,13 +176,14 @@ print(matriz)
 #             g["Nombre"] = viajero['nombre']
 #             g["Apellido"] = viajero['apellido']
 
-
+j=0
 viajeros_en_act = []
 for id in viajeros_act:
     for viajero in viajeros1:
         if id == viajero["id"]:
             viajeros_en_act.append(viajero["nombre"])
-            viajeros_en_act[id-1] = viajeros_en_act[id-1]+ ' ' +viajero['apellido']
+            viajeros_en_act[j] = viajeros_en_act[j]+ ' ' +viajero['apellido']
+            j +=1
 
 #     for viajero in
 #     viajnom = session.query(Viajero).filter(Viajero.id == id)
@@ -216,7 +213,8 @@ print(viajeros_en_actividad)
 
 matriz_header=[[""]]
 for viajero in viajeros_en_actividad:
-    matriz_header[0].append(viajero['Nombre'])
+    if viajero["Presente"] == True:
+        matriz_header[0].append(viajero['Nombre'])
 for i in range(len(matriz)):
     matriz[i].insert(0,matriz_header[0][i+1])
 matriz.insert(0, matriz_header[0])
