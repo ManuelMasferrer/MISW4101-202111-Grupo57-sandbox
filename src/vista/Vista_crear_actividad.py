@@ -58,14 +58,17 @@ class Dialogo_crear_actividad(QDialog):
         if (actividad!=None):
             self.texto_nombre.setText(actividad)
 
-
     def guardar(self):
         """
         Esta función envía la información de que se han guardado los cambios
-        """   
-        self.resultado=1
-        self.close()
-        return self.resultado
+        """
+        if self.texto_nombre.text() != "":  # Ivan
+            self.resultado = 1  # Ivan
+            self.close()  # Ivan
+        else:  # Ivan
+            self.resultado = 0  # Ivan
+            self.close()  # Ivan
+        return self.resultado  # Ivan
 
 
     def cancelar(self):

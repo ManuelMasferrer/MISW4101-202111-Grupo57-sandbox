@@ -73,9 +73,14 @@ class Dialogo_crear_viajero(QDialog):
         """
         Esta función envía la información de que se han guardado los cambios
         """   
-        self.resultado=1
-        self.close()
-        return self.resultado
+        if self.texto_nombre.text()  != "" and self.texto_apellido != "": #Ivan
+            print("Hello")
+            self.resultado=1 #Ivan
+            self.close() #Ivan
+        else: #Ivan
+            self.resultado=0 #Ivan
+            self.close() # Ivan
+        return self.resultado #Ivan
 
 
     def cancelar(self):

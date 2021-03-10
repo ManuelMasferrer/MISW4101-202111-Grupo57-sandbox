@@ -6,6 +6,8 @@ from .Vista_reporte_compensacion import Vista_reporte_compensacion
 from .Vista_reporte_gastos import Vista_reporte_gastos_viajero
 from src.modelo.declarative_base import Session
 from src.modelo.actividad import Actividad
+# from src.modelo.actividad import Actividad
+from src.logica.Logica_mock import * # Ivan
 
 
 class App_CuentasClaras(QApplication):
@@ -33,27 +35,40 @@ class App_CuentasClaras(QApplication):
         self.vista_lista_actividades = Vista_lista_actividades(self) 
         self.vista_lista_actividades.mostrar_actividades(self.logica.actividades)
 
-
-
     def insertar_actividad(self, nombre):
         """
         Esta función inserta una actividad en la lógica (debe modificarse cuando se construya la lógica)
         """
-        self.logica.actividades.append(nombre)
+
+        session = Session()  # Ivan
+        session.add(Actividad(nombre=nombre))  # Ivan
+        session.commit()  # Ivan
+        session.close()  # Ivan
+        self.logica = Logica_mock()  # Ivan
         self.vista_lista_actividades.mostrar_actividades(self.logica.actividades)
 
     def editar_actividad(self, indice_actividad, nombre):
         """
         Esta función editar una actividad en la lógica (debe modificarse cuando se construya la lógica)
         """
-        self.logica.actividades[indice_actividad] = nombre
+        session = Session()  # Ivan
+        nombre_a_editar = session.query(Actividad).get(indice_actividad)  # Ivan
+        nombre_a_editar.nombre = nombre  # Ivan
+        session.commit()  # Ivan
+        session.close()  # Ivan
+        self.logica = Logica_mock()  # Ivan
         self.vista_lista_actividades.mostrar_actividades(self.logica.actividades)
 
     def eliminar_actividad(self, indice_actividad):
         """
         Esta función elimina una actividad en la lógica (debe modificarse cuando se construya la lógica)
         """
-        self.logica.actividades.pop(indice_actividad)
+
+        session = Session()  # Ivan
+        session.query(Actividad).filter(Actividad.id ==indice_actividad).delete() # Ivan
+        session.commit() # Ivan
+        session.close() # Ivan
+        self.logica = Logica_mock() # Ivan
         self.vista_lista_actividades.mostrar_actividades(self.logica.actividades)
 
 
@@ -68,7 +83,11 @@ class App_CuentasClaras(QApplication):
         """
         Esta función inserta un viajero en la lógica (debe modificarse cuando se construya la lógica)
         """
-        self.logica.viajeros.append({"Nombre":nombre, "Apellido":apellido})
+        Base.metadata.create_all(engine) # Ivan
+        session = Session() # Ivan
+        session.add(Viajero(nombre=nombre, apellido = apellido)) # Ivan
+        session.commit() # Ivan
+        self.logica = Logica_mock() # Ivan
         self.vista_lista_viajeros.mostrar_viajeros(self.logica.viajeros)
 
     def editar_viajero(self, indice_viajero, nombre, apellido):

@@ -6,6 +6,9 @@ from functools import partial
 from .Vista_crear_actividad import Dialogo_crear_actividad
 from .Vista_agregar_viajero import Dialogo_agregar_viajeros
 
+from src.modelo.declarative_base import Session #Ivan
+from src.logica.Logica_mock import * # Ivan
+
 
 class Vista_lista_actividades(QWidget):
     #Ventana que muestra la lista de actividades
@@ -124,10 +127,17 @@ class Vista_lista_actividades(QWidget):
             etiqueta_acciones.setAlignment(Qt.AlignCenter)
             etiqueta_acciones.setFont(QFont("Times",weight=QFont.Bold))               
             self.distribuidor_tabla_actividades.addWidget(etiqueta_acciones, 0,1,1,5, Qt.AlignCenter)
-       
-            numero_fila=0
+
+            numero_fila = 0
+            global actividad_id
+            lista_id_numero_fila = list()  # Ivan
+            Base.metadata.create_all(engine)  # Ivan
+            session = Session()  # Ivan
+            actividad_id = [x[0] for x in session.query(Actividad.id)]  # Ivan
+            session.close()
             for item in self.actividades:
                 numero_fila=numero_fila+1
+                lista_id_numero_fila.append((numero_fila - 1, actividad_id[numero_fila - 1]))  # Ivan
 
                 etiqueta_actividad=QLabel(item)          
                 etiqueta_actividad.setWordWrap(True)
@@ -170,6 +180,7 @@ class Vista_lista_actividades(QWidget):
                 btn_eliminar.setIcon(QIcon("src/recursos/005-delete.png"))
                 btn_eliminar.clicked.connect(partial(self.eliminar_actividad,numero_fila -1) )
                 self.distribuidor_tabla_actividades.addWidget(btn_eliminar,numero_fila,5,Qt.AlignCenter)
+            print(lista_id_numero_fila)  # Ivan
         else:
                 self.tabla_actividades.setVisible(False)
                 numero_fila=0
@@ -213,7 +224,7 @@ class Vista_lista_actividades(QWidget):
         dialogo = Dialogo_crear_actividad(self.actividades[indice_actividad])        
         dialogo.exec_()
         if dialogo.resultado == 1:
-            self.interfaz.editar_actividad(indice_actividad, dialogo.texto_nombre.text())
+            self.interfaz.editar_actividad(actividad_id[indice_actividad], dialogo.texto_nombre.text()) # Ivan
             
     def mostrar_dialogo_insertar_viajeros(self,actividad):   
         """
@@ -229,6 +240,8 @@ class Vista_lista_actividades(QWidget):
         """
         Esta función elimina una actividad tras solicitar una confirmación
         """
+        print(actividad_id[indice_actividad]) #Ivan
+        print(indice_actividad) # Ivan
         mensaje_confirmacion=QMessageBox()
         mensaje_confirmacion.setIcon(QMessageBox.Question)
         mensaje_confirmacion.setText("¿Esta seguro de que desea borrar esta actividad?\nRecuerde que esta acción es irreversible")        
@@ -237,7 +250,7 @@ class Vista_lista_actividades(QWidget):
         mensaje_confirmacion.setStandardButtons(QMessageBox.Yes | QMessageBox.No ) 
         respuesta=mensaje_confirmacion.exec_()
         if respuesta == QMessageBox.Yes:
-             self.interfaz.eliminar_actividad(indice_actividad)
+             self.interfaz.eliminar_actividad(actividad_id[indice_actividad])  # Ivan
     
 
 
