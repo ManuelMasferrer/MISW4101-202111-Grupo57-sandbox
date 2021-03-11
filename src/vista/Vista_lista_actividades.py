@@ -221,6 +221,7 @@ class Vista_lista_actividades(QWidget):
         """
         Esta función ejecuta el diálogo para editar una actividad
         """
+        # print(self.actividades[indice_actividad]) #Ivan
         dialogo = Dialogo_crear_actividad(self.actividades[indice_actividad])        
         dialogo.exec_()
         if dialogo.resultado == 1:

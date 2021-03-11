@@ -2,6 +2,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import * 
 from PyQt5.QtCore import *
 from functools import partial
+from src.logica.Logica_mock import * # Ivan
+
 
 class Dialogo_crear_actividad(QDialog):
     #Diálogo para crear una actividad
@@ -11,6 +13,8 @@ class Dialogo_crear_actividad(QDialog):
         Constructor del diálogo
         """    
         super().__init__()
+
+        self.actividad = actividad # Ivan
 
         self.setFixedSize(300,110)
         
@@ -62,8 +66,12 @@ class Dialogo_crear_actividad(QDialog):
         """
         Esta función envía la información de que se han guardado los cambios
         """
-        if self.texto_nombre.text() != "":  # Ivan
+        self.logica = Logica_mock() # Ivan
+        lista_no_opciones = [x for x in self.logica.actividades if x != self.actividad ] # Ivan
+        if self.texto_nombre.text() != "" and self.texto_nombre.text() not in lista_no_opciones:  # Ivan
             self.resultado = 1  # Ivan
+            self.logica = Logica_mock()
+            print(self.logica.actividades)
             self.close()  # Ivan
         else:  # Ivan
             self.resultado = 0  # Ivan
