@@ -80,6 +80,11 @@ class Vista_reporte_compensacion(QWidget):
         for act in self.actividades1:
             self.activities.append(object_as_dict(act))
 
+        self.viajeross = session.query(Viajero).all()
+        self.viajeros1 = []
+        for viajero in self.viajeross:
+            self.viajeros1.append(object_as_dict(viajero))
+
         # Funcionalidad para encontrar id de la actividad actual
         for act in self.activities:
             self.actnom = act.get("nombre")
@@ -151,10 +156,6 @@ class Vista_reporte_compensacion(QWidget):
                         self.gastos_consolidados[j][2] = self.gastos_consolidados[j][2] - row[3]
                         row[3] = 0
                 i+=1
-        self.viajeross = session.query(Viajero).all()
-        self.viajeros1 = []
-        for viajero in self.viajeross:
-            self.viajeros1.append(object_as_dict(viajero))
 
         j = 0
         self.viajeros_en_act = []

@@ -228,13 +228,13 @@ class Vista_actividad(QWidget):
         self.hide()
         self.interfaz.mostrar_vista_lista_actividades()
 
-    def mostrar_reporte_comensacion(self, actividad):
+    def mostrar_reporte_comensacion(self):
         """
         Esta función informa a la interfaz para mostrar la ventana del reporte de compensación
         """    
         self.hide()
-        self.actividad = actividad
-        self.interfaz.mostrar_reporte_compensacion(self.actividad)
+     #   self.actividad = actividad
+        self.interfaz.mostrar_reporte_compensacion()
         
     def mostrar_reporte_gastos_por_viajero(self):
         """

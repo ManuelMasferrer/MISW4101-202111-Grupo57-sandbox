@@ -4,9 +4,8 @@ from .Vista_lista_viajeros import Vista_lista_viajeros
 from .Vista_actividad import Vista_actividad
 from .Vista_reporte_compensacion import Vista_reporte_compensacion
 from .Vista_reporte_gastos import Vista_reporte_gastos_viajero
+from .Vista_crear_gasto import Dialogo_crear_gasto
 from src.modelo.declarative_base import Session
-from src.modelo.actividad import Actividad
-# from src.modelo.actividad import Actividad
 from src.logica.Logica_mock import * # Ivan
 
 
@@ -143,12 +142,14 @@ class App_CuentasClaras(QApplication):
         self.vista_reporte_comensacion = Vista_reporte_compensacion(self)
         self.vista_reporte_comensacion.mostrar_reporte_compensacion(self.logica.actividades[self.actividad_actual])
 
-    def mostrar_reporte_gastos_viajero(self):
+    def mostrar_reporte_gastos_viajero(self, indice_actividad= -1):
         """
         Esta función muestra el reporte de gastos consolidados
         """
+        if indice_actividad != -1:
+            self.actividad_actual = indice_actividad
         self.vista_reporte_gastos = Vista_reporte_gastos_viajero(self)
-        self.vista_reporte_gastos.mostar_reporte_gastos(self.logica.gastos_consolidados)
+        self.vista_reporte_gastos.mostar_reporte_gastos(self.logica.actividades[self.actividad_actual])
 
     def actualizar_viajeros(self, n_viajeros_en_actividad):
         """

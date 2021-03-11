@@ -3,6 +3,17 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import QWidget
 
+
+from sqlalchemy.orm import sessionmaker
+from src.modelo.declarative_base import  Base, engine
+from src.logica.Logica_mock import object_as_dict
+from src.modelo.actividad import Actividad
+from src.modelo.viajero import Viajero, ActividadViajero
+from src.modelo.gasto import Gasto
+from sqlalchemy import inspect, func
+
+Base.metadata.create_all(engine)
+
 from functools import partial
 
 class Vista_reporte_gastos_viajero(QWidget):
@@ -74,14 +85,83 @@ class Vista_reporte_gastos_viajero(QWidget):
         self.distribuidor_base.setAlignment(self.btn_volver, Qt.AlignCenter)
 
 
-    def mostar_reporte_gastos(self, lista_gastos):
+    def mostar_reporte_gastos(self, actividad):
         """
         Esta función puebla el reporte de gastos con la información en la lista
         """
+        self.actividad = actividad
 
-        #Por cada iteración, llenamos con el nombre del viajero y sus gastos consolidados para la actividad
+        Session = sessionmaker(bind=engine)
+        session = Session()
+
+        self.viajeross = session.query(Viajero).all()
+        self.viajeros1 = []
+        for viajero in self.viajeross:
+            self.viajeros1.append(object_as_dict(viajero))
+
+        self.activities = []
+        self.actividades1 = session.query(Actividad).all()
+        for act in self.actividades1:
+            self.activities.append(object_as_dict(act))
+
+    # Funcionalidad para encontrar id de la actividad actual
+        for act in self.activities:
+            self.actnom = act.get("nombre")
+            if self.actnom == actividad:
+                act_id = act.get("id")
+
+    # Consultar los viajeros registrados en la actividad
+
+        self.viajeros_actividad = []
+        q2 = session.query(ActividadViajero).all()
+        for q in q2:
+            self.viajeros_actividad.append(object_as_dict(q))
+
+    # Determinar los gastos totales por viajero
+        self.gastos_viajero_act = []
+        self.viajeros_act = []
+        for item in self.viajeros_actividad:
+            actid = item.get("actividad")
+            if actid == act_id:
+                self.gastos_viajero_act.append([item.get("viajero"),0])
+                self.viajeros_act.append(item.get("viajero"))
+
+
+
+    # Consolidar los gastos por viajero
+        self.gastos_consolidados = []
+        self.gastos2 = session.query(Gasto.viajero, func.sum(Gasto.valor).label('GastoViajero') ).join(Actividad).filter(Gasto.actividad == act_id).group_by(Gasto.viajero).all()
+
+    #
+    # for id in self.viajeros1:
+    #     self.gastos_consolidados.append({self.viajeros1[id].nombre, self.viajeros1[id].apellido, self.gastos2[id][1]})
+
+
+
+
+        k=0
+        for id in self.viajeros_act:
+            for i in range(len(self.gastos2)):
+                if id == self.gastos2[i][0]:
+                    self.gastos_viajero_act[k][1] = self.gastos2[k][1]
+                    k +=1
+
+
+
+        for i in range(len(self.viajeros_act)):
+            for viajero in self.viajeros1:
+                if self.viajeros_act[i] == viajero['id']:
+                    self.gastos_consolidados.append({"Nombre":viajero["nombre"], "Apellido":viajero["apellido"]})
+
+        for i in range(len(self.viajeros_act)):
+            self.gastos_consolidados[i]['Valor'] = self.gastos_viajero_act[i][1]
+
+
+        self.lista_gastos = self.gastos_consolidados
+
+    #Por cada iteración, llenamos con el nombre del viajero y sus gastos consolidados para la actividad
         numero_fila = 1
-        for gasto in lista_gastos:
+        for gasto in self.lista_gastos:
 
             etiqueta_viajero = QLabel(gasto["Nombre"] + ' ' + gasto["Apellido"])
             etiqueta_viajero.setWordWrap(True)
