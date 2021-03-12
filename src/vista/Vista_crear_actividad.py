@@ -14,7 +14,7 @@ class Dialogo_crear_actividad(QDialog):
         """    
         super().__init__()
 
-        self.actividad = actividad # Ivan
+        self.actividad = actividad # Ivan semana 07
 
         self.setFixedSize(300,110)
         
@@ -66,17 +66,17 @@ class Dialogo_crear_actividad(QDialog):
         """
         Esta función envía la información de que se han guardado los cambios
         """
-        self.logica = Logica_mock() # Ivan
+        self.logica = Logica_mock() # Ivan semana 07
         lista_no_opciones = [x for x in self.logica.actividades if x != self.actividad ] # Ivan
         if self.texto_nombre.text() != "" and self.texto_nombre.text() not in lista_no_opciones:  # Ivan
-            self.resultado = 1  # Ivan
+            self.resultado = 1  # Ivan semana 07
             self.logica = Logica_mock()
             print(self.logica.actividades)
-            self.close()  # Ivan
-        else:  # Ivan
-            self.resultado = 0  # Ivan
-            self.close()  # Ivan
-        return self.resultado  # Ivan
+            self.close()  # Ivan semana 07
+        else:  # Ivan semana 07
+            self.resultado = 0  # Ivan semana 07
+            self.close()  # Ivan semana 07
+        return self.resultado  # Ivan semana 07
 
 
     def cancelar(self):

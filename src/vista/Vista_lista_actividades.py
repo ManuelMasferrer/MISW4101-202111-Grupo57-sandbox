@@ -6,8 +6,8 @@ from functools import partial
 from .Vista_crear_actividad import Dialogo_crear_actividad
 from .Vista_agregar_viajero import Dialogo_agregar_viajeros
 
-from src.modelo.declarative_base import Session #Ivan
-from src.logica.Logica_mock import * # Ivan
+from src.modelo.declarative_base import Session #Ivan semana 06 semana 07
+from src.logica.Logica_mock import * # Ivan semana 06 semana 07
 
 
 class Vista_lista_actividades(QWidget):
@@ -130,14 +130,14 @@ class Vista_lista_actividades(QWidget):
 
             numero_fila = 0
             global actividad_id
-            lista_id_numero_fila = list()  # Ivan
-            Base.metadata.create_all(engine)  # Ivan
-            session = Session()  # Ivan
-            actividad_id = [x[0] for x in session.query(Actividad.id)]  # Ivan
+            lista_id_numero_fila = list()  # Ivan semana 07
+            Base.metadata.create_all(engine)  # Ivan semana 07
+            session = Session()  # Ivan semana 07
+            actividad_id = [x[0] for x in session.query(Actividad.id)]  # Ivan semana 07
             session.close()
             for item in self.actividades:
                 numero_fila=numero_fila+1
-                lista_id_numero_fila.append((numero_fila - 1, actividad_id[numero_fila - 1]))  # Ivan
+                lista_id_numero_fila.append((numero_fila - 1, actividad_id[numero_fila - 1]))  # Ivan semana 07
 
                 etiqueta_actividad=QLabel(item)          
                 etiqueta_actividad.setWordWrap(True)
@@ -225,7 +225,7 @@ class Vista_lista_actividades(QWidget):
         dialogo = Dialogo_crear_actividad(self.actividades[indice_actividad])        
         dialogo.exec_()
         if dialogo.resultado == 1:
-            self.interfaz.editar_actividad(actividad_id[indice_actividad], dialogo.texto_nombre.text()) # Ivan
+            self.interfaz.editar_actividad(actividad_id[indice_actividad], dialogo.texto_nombre.text()) # Ivan semana 07
             
     def mostrar_dialogo_insertar_viajeros(self,actividad):   
         """
@@ -251,7 +251,7 @@ class Vista_lista_actividades(QWidget):
         mensaje_confirmacion.setStandardButtons(QMessageBox.Yes | QMessageBox.No ) 
         respuesta=mensaje_confirmacion.exec_()
         if respuesta == QMessageBox.Yes:
-             self.interfaz.eliminar_actividad(actividad_id[indice_actividad])  # Ivan
+             self.interfaz.eliminar_actividad(actividad_id[indice_actividad])  # Ivan semana 07
     
 
 

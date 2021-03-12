@@ -73,3 +73,6 @@ class ActividadTestCases(unittest.TestCase):
         '''Prueba que un elemento sea de una clase'''
         self.assertIsInstance(self.actividad1, Actividad)
         self.assertNotIsInstance(self.listado, Actividad)
+
+    def test_prueba(self):
+        self.assertEqual(0,0)

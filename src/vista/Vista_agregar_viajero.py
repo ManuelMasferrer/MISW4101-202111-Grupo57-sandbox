@@ -64,11 +64,12 @@ class Dialogo_agregar_viajeros(QDialog):
         indice_viajero = 0
         numero_fila = 4
         for viajero in self.viajeros:
-            caja_de_chequeo = QCheckBox(viajero["Nombre"])
+            caja_de_chequeo = QCheckBox(viajero["Nombre"]+ " " + viajero["Apellido"]) # Ivan
             self.lista_cajas_de_chequeo.append(caja_de_chequeo)
 
             if viajero["Presente"]:
                 caja_de_chequeo.setChecked(True)
+                self.resultado =  1 # Ivan
 
             self.distribuidor_tabla_viajeros.addWidget(
                 self.lista_cajas_de_chequeo[indice_viajero], indice_viajero, 0)

@@ -36,6 +36,9 @@ class Logica_mock():
         for i in range(len(self.viajerosdict)):
             self.viajeros.append({"Nombre": self.viajerosdict[i]["nombre"],"Apellido": self.viajerosdict[i]["apellido"]})
 
+        self.lista_dict_viajeros_presentes = [{"Nombre": i.nombre, "Apellido": i.apellido, "Presente": False} for i in
+                                         session.query(Viajero)] # Ivan
+        self.viajeros_en_actividad = self.lista_dict_viajeros_presentes # Ivan
 
         # self.gastos1 = session.query(Gasto).join(Actividad).filter(Gasto.actividad == ).all()
         # self.gastos = []
