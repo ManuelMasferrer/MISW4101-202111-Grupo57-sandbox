@@ -3,6 +3,7 @@ import unittest
 from src.logica.manuel_coleccion_insertar_editar_eliminar_actividad import Coleccion
 from src.modelo.declarative_base import Session #Ivan
 from src.logica.Logica_mock import * # Ivan
+from src.modelo.actividad import Actividad
 import random
 
 class ActividadTestCase(unittest.TestCase):
