@@ -1,5 +1,5 @@
 import unittest
-from src.logica.coleccion_insertar_viajero import Coleccion
+from src.logica.manuel_coleccion_insertar_viajero import Coleccion
 from src.modelo.declarative_base import Session #Ivan
 from src.logica.Logica_mock import * # Ivan
 

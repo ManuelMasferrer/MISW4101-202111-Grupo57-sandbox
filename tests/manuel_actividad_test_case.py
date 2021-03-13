@@ -1,5 +1,5 @@
 import unittest
-from src.logica.coleccion_insertar_editar_eliminar_actividad import Coleccion
+from src.logica.manuel_coleccion_insertar_editar_eliminar_actividad import Coleccion
 from src.modelo.declarative_base import Session #Ivan
 from src.logica.Logica_mock import * # Ivan
 
@@ -50,8 +50,8 @@ class ActividadTestCase(unittest.TestCase):
 
     def test_editar_la_actividad(self):
         '''Prueba la edicion de una actividad'''
-        resultdo = self.coleccion.editar_la_actividad("Ir al mar", "Ir al parque de diversiones")
-        self.assertEqual(resultdo, True)
+        resultado = self.coleccion.editar_la_actividad("Ir al mar", "Ir al parque de diversiones")
+        self.assertEqual(resultado, True)
 
     def test_eliminar_la_actividad(self):
         resultado = self.coleccion.eliminar_la_actividad("Ir al cine")

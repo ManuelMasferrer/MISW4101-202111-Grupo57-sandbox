@@ -8,7 +8,7 @@ class Coleccion():
         Base.metadata.create_all(engine)
 
     def insertar_el_viajero(self,nombre, apellido):
-        busqueda = session.query(Viajero).filter(Viajero.nombre == nombre, Viajero.apellido == apellido).all()
+        busqueda = session.query(Viajero).filter(Viajero.nombre == nombre and Viajero.apellido == apellido).all()
         if len(busqueda) ==0:
             viajero = Viajero(nombre = nombre, apellido = apellido)
             session.add(viajero)

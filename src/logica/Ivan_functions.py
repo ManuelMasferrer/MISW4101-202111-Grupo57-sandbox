@@ -1,6 +1,6 @@
 from src.modelo.declarative_base import Session #Ivan
 from src.logica.Logica_mock import * # Ivan
-from src.logica.coleccion_insertar_editar_eliminar_actividad import Coleccion
+from src.logica.manuel_coleccion_insertar_editar_eliminar_actividad import Coleccion
 
 
 
@@ -55,3 +55,16 @@ if __name__ == "__main__":
             return False
 
     print(insertar_la_actividad("Ir a Hong Kong"), "Hello")
+
+    def insertar_el_viajero(nombre, apellido):
+        busqueda = session.query(Viajero).filter(Viajero.nombre == nombre and Viajero.apellido == apellido).all()
+        if len(busqueda) ==0:
+            viajero = Viajero(nombre = nombre, apellido = apellido)
+            session.add(viajero)
+            session.commit()
+            return True
+        else:
+            return False
+    print("******")
+    print(insertar_el_viajero(nombre="Samuel",apellido="Rodriguez"))
+    print("********")
